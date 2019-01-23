@@ -1,4 +1,4 @@
-const { ipcRenderer: ipc } = require('electron');
+const { ipcRenderer: ipc, shell } = require('electron');
 
 class Scrapbox {
   constructor(baseUrl) {
@@ -44,6 +44,10 @@ class MainApp {
 
     this.webview.addEventListener('did-navigate-in-page', ({ url }) => {
       this.scrapbox.changedUrl(url);
+    });
+
+    this.webview.addEventListener('new-window', (e) => {
+      shell.openExternal(e.url);
     });
 
     this.toggleWebViewDevtools = this.toggleWebViewDevtools.bind(this);
